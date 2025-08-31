@@ -5,7 +5,7 @@ const config = {
   },
   production: {
     // Replace this with your actual deployed backend URL
-    apiBaseUrl: 'https://your-backend-url.onrender.com'
+    apiBaseUrl: 'http://localhost:3000'  // TEMPORARY: Change this to your actual backend URL after deployment
   }
 };
 
