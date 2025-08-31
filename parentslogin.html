@@ -154,10 +154,11 @@ button:hover {
     <button type="submit">Login</button>
   </form>
   <div class="signup-link">
-    Don’t have an account? <a href="/parent-signup">Sign up here</a>
+    Don’t have an account? <a href="parentsignup.html">Sign up here</a>
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
   document.getElementById('parentLoginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -165,7 +166,7 @@ button:hover {
     const password = document.getElementById('password').value.trim();
 
     try {
-      const response = await fetch('/auth/parent/login', {
+      const response = await fetch(`${window.API_CONFIG.apiBaseUrl}/auth/parent/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -173,7 +174,7 @@ button:hover {
       const result = await response.json();
 
       if (response.ok) {
-        window.location.href = "/parent-dashboard";
+        window.location.href = "parentdashboard.html";
       } else {
         alert(result.error || "Invalid email or password.");
       }

@@ -1,0 +1,10 @@
+# Redirects for client-side routing
+/teacher-signup /teachersignup.html 200
+/parent-signup /parentsignup.html 200
+/teacherlogin /teacherlogin.html 200
+/parentslogin /parentslogin.html 200
+/teacher-dashboard /teacherdashboard.html 200
+/parent-dashboard /parentdashboard.html 200
+
+# Catch all route - serve index.html for SPA-like behavior
+/* /index.html 200

@@ -1,0 +1,38 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/teacher-signup"
+  to = "/teachersignup.html"
+  status = 200
+
+[[redirects]]
+  from = "/parent-signup"
+  to = "/parentsignup.html"
+  status = 200
+
+[[redirects]]
+  from = "/teacherlogin"
+  to = "/teacherlogin.html"
+  status = 200
+
+[[redirects]]
+  from = "/parentslogin"
+  to = "/parentslogin.html"
+  status = 200
+
+[[redirects]]
+  from = "/teacher-dashboard"
+  to = "/teacherdashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/parent-dashboard"
+  to = "/parentdashboard.html"
+  status = 200
+
+# Handle all other routes by serving index.html (for SPA-like behavior)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
