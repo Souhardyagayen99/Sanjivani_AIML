@@ -146,24 +146,37 @@ button:hover {
   </form>
 </div>
 
-<script>
+  <script src="config.js"></script>
+  <script>
   document.getElementById("signupForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const response = await fetch("http://localhost:3000/auth/teacher/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    const messageEl = document.getElementById("message");
-    if (response.ok) {
-      messageEl.style.color = "green";
-      messageEl.innerText = "Signup successful!";
-    } else {
-      const error = await response.text();
+    
+    try {
+      const response = await fetch(`${window.API_CONFIG.apiBaseUrl}/auth/teacher/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      const messageEl = document.getElementById("message");
+      if (response.ok) {
+        messageEl.style.color = "green";
+        messageEl.innerText = "Signup successful! Redirecting to login...";
+        setTimeout(() => {
+          window.location.href = "teacherlogin.html";
+        }, 2000);
+      } else {
+        const error = await response.json();
+        messageEl.style.color = "red";
+        messageEl.innerText = error.error || "Signup failed. Please try again.";
+      }
+    } catch (error) {
+      const messageEl = document.getElementById("message");
       messageEl.style.color = "red";
-      messageEl.innerText = error;
+      messageEl.innerText = "Network error. Please check your connection.";
+      console.error("Signup error:", error);
     }
   });
 </script>

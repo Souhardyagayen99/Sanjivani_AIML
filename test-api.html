@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        button { padding: 10px 20px; margin: 5px; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 API Test Page</h1>
+    <p>Use this page to test if your backend API is working correctly.</p>
+
+    <div class="test-section">
+        <h3>📡 Backend Status Check</h3>
+        <p>Current API URL: <span id="currentUrl">Loading...</span></p>
+        <button onclick="checkBackendStatus()">Check Backend Status</button>
+        <div id="statusResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🧑‍🏫 Test Teacher Signup</h3>
+        <input type="email" id="teacherEmail" placeholder="teacher@test.com" value="teacher@test.com">
+        <input type="password" id="teacherPassword" placeholder="password" value="testpass123">
+        <button onclick="testTeacherSignup()">Test Teacher Signup</button>
+        <div id="teacherResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>👨‍👩‍👧 Test Parent Signup</h3>
+        <input type="email" id="parentEmail" placeholder="parent@test.com" value="parent@test.com">
+        <input type="password" id="parentPassword" placeholder="password" value="testpass123">
+        <button onclick="testParentSignup()">Test Parent Signup</button>
+        <div id="parentResult"></div>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        // Display current API URL
+        document.getElementById('currentUrl').textContent = window.API_CONFIG.apiBaseUrl;
+
+        // Check backend status
+        async function checkBackendStatus() {
+            const resultDiv = document.getElementById('statusResult');
+            resultDiv.innerHTML = 'Checking...';
+            
+            try {
+                const response = await fetch(`${window.API_CONFIG.apiBaseUrl}/auth/teacher/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: 'test@test.com', password: 'test' })
+                });
+                
+                if (response.status === 409) {
+                    resultDiv.innerHTML = '<span class="success">✅ Backend is running! (Got expected duplicate email error)</span>';
+                } else if (response.ok) {
+                    resultDiv.innerHTML = '<span class="success">✅ Backend is running! (Signup successful)</span>';
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Backend responded with status: ${response.status}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Cannot connect to backend: ${error.message}</span>`;
+            }
+        }
+
+        // Test teacher signup
+        async function testTeacherSignup() {
+            const resultDiv = document.getElementById('teacherResult');
+            const email = document.getElementById('teacherEmail').value;
+            const password = document.getElementById('teacherPassword').value;
+            
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(`${window.API_CONFIG.apiBaseUrl}/auth/teacher/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = '<span class="success">✅ Teacher signup successful!</span>';
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Teacher signup failed: ${data.error}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+
+        // Test parent signup
+        async function testParentSignup() {
+            const resultDiv = document.getElementById('parentResult');
+            const email = document.getElementById('parentEmail').value;
+            const password = document.getElementById('parentPassword').value;
+            
+            resultDiv.innerHTML = 'Testing...';
+            
+            try {
+                const response = await fetch(`${window.API_CONFIG.apiBaseUrl}/auth/parent/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = '<span class="success">✅ Parent signup successful!</span>';
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Parent signup failed: ${data.error}</span>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

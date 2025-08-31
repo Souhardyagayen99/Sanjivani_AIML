@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MONGODB_URI = 'mongodb+srv://adityashinde24:8vM4yXI7cbovZDOy@cluster0.7mgbh7r.mongodb.net/college_marks';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://adityashinde24:8vM4yXI7cbovZDOy@cluster0.7mgbh7r.mongodb.net/college_marks';
 
 // Connect to MongoDB Atlas
 mongoose.connect(MONGODB_URI)
